@@ -1,6 +1,5 @@
 package com.projetofinal.services;
 
-import com.projetofinal.domains.Brand;
 import com.projetofinal.domains.Category;
 import com.projetofinal.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;

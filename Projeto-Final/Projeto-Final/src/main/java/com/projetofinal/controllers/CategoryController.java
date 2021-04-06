@@ -1,13 +1,8 @@
 package com.projetofinal.controllers;
 
 import com.projetofinal.domains.Category;
-import com.projetofinal.domains.User;
-import com.projetofinal.mappers.CategoryMapper;
-import com.projetofinal.mappers.UserMapper;
 import com.projetofinal.repository.CategoryRepository;
-import com.projetofinal.repository.UserRepository;
 import com.projetofinal.services.CategoryService;
-import com.projetofinal.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +10,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "/category")
+@RequestMapping(path = "/category")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
@@ -23,12 +18,10 @@ public class CategoryController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-
     @PostMapping
     private Category create(@Valid @RequestBody Category category) throws Exception {
         return categoryRepository.save(category);
     }
-
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable("id") Long id) {

@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "/brand")
+@RequestMapping(path = "/brand")
 public class BrandController {
     @Autowired
     private BrandService brandService;

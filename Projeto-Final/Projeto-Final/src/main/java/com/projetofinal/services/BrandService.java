@@ -3,9 +3,6 @@ package com.projetofinal.services;
 import com.projetofinal.domains.Brand;
 import com.projetofinal.repository.BrandRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.List;
 
 @Service
