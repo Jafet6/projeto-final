@@ -43,7 +43,7 @@ public class WebSecurityConfigAdapter extends WebSecurityConfigurerAdapter {
             userLogin.setPassword(passwordEncoder().encode("admin"));
             userRepository.save(userLogin);
         }
-        builder.userDetailsService(username -> new UserResponse(userRepository.findByUsername(username)))
+        builder.userDetailsService(name -> new UserResponse(userRepository.findByName(name)))
                 .passwordEncoder(passwordEncoder());
     }
 }

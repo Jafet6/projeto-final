@@ -1,4 +1,7 @@
 package com.projetofinal.repository;
 
-public interface ProductRepository {
+import com.projetofinal.domains.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
 }

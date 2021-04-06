@@ -13,14 +13,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table
 @ToString
-public class Category {
+public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String category;
+    private String marca;
 
-    public Category(String category) {
-        this.category = category;
+    public Brand(String marca) {
+        this.marca = marca;
     }
 }
