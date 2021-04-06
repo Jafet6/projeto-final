@@ -19,10 +19,9 @@ public class BrandController {
     private BrandRepository brandRepository;
 
     @PostMapping
-    private Brand create(@Valid @RequestBody Brand brand) throws Exception {
+    public Brand create(@Valid @RequestBody Brand brand) throws Exception {
         return brandRepository.save(brand);
     }
-
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable("id") Long id) {
