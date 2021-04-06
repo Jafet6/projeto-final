@@ -1,6 +1,5 @@
 package com.projetofinal.services;
 
-import com.projetofinal.domains.Product;
 import com.projetofinal.domains.User;
 import com.projetofinal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

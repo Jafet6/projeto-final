@@ -9,12 +9,13 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
+@Table(name = "product")
 @ToString
 public class Product {
     @Id
@@ -23,7 +24,7 @@ public class Product {
 
     @NotBlank
     @NotEmpty
-    @Max(80)
+    @Size(min = 3, max = 80)
     private String name;
 
     private String barCode;

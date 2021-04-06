@@ -11,16 +11,16 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
+@Table(name = "brand")
 @ToString
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String marca;
+    private String brand;
 
-    public Brand(String marca) {
-        this.marca = marca;
+    public Brand(String brand) {
+        this.brand = brand;
     }
 }

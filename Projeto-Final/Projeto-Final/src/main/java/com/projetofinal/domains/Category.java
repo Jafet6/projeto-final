@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
+@Table(name = "category")
 @ToString
 public class Category {
     @Id

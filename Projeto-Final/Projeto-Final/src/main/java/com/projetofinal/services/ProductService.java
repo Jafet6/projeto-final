@@ -1,8 +1,9 @@
 package com.projetofinal.services;
 
-import com.projetofinal.domains.Category;
 import com.projetofinal.domains.Product;
+import com.projetofinal.mappers.ProductMapper;
 import com.projetofinal.repository.ProductRepository;
+import com.projetofinal.responses.ProductDataResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +11,24 @@ import java.util.List;
 
 @Service
 public class ProductService {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
+    private final CategoryService categoryService;
+    private final BrandService brandService;
 
-    public Product create(Product product) throws Exception {
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper, CategoryService categoryService, BrandService brandService) {
+        this.productRepository = productRepository;
+        this.productMapper = productMapper;
+        this.categoryService = categoryService;
+        this.brandService = brandService;
+    }
+
+    public ProductDataResponse create(Product product) throws Exception {
+//        Category categoria = categoryService.findByName();
+//        brandService.save
         productRepository.save(product);
-        return product;
+        ProductDataResponse productResponse = productMapper.convertProductDomainToProductResponse(product);
+        return productResponse;
     }
 
     public void deleteById(Long id) {

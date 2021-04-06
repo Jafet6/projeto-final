@@ -1,5 +1,6 @@
 package com.projetofinal.config;
 
+import com.projetofinal.mappers.ProductMapper;
 import com.projetofinal.utils.date.DateUTC;
 import com.projetofinal.mappers.UserMapper;
 import org.modelmapper.ModelMapper;
@@ -11,6 +12,11 @@ public class AppConfig {
     @Bean
     public UserMapper userMapper() {
         return new UserMapper(new ModelMapper());
+    }
+
+    @Bean
+    public ProductMapper productMapper() {
+        return new ProductMapper(new ModelMapper());
     }
 
     @Bean
