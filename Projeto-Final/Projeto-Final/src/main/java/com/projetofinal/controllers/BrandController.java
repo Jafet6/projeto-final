@@ -13,10 +13,10 @@ import java.util.List;
 @RequestMapping(name = "/brand")
 public class BrandController {
     @Autowired
-    BrandService brandService;
+    private BrandService brandService;
 
     @Autowired
-    BrandRepository brandRepository;
+    private BrandRepository brandRepository;
 
     @PostMapping
     private Brand create(@Valid @RequestBody Brand brand) throws Exception {

@@ -14,10 +14,10 @@ import java.util.List;
 @RequestMapping(name = "/users")
 public class UserController {
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
