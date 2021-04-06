@@ -29,7 +29,7 @@ public class Product {
     private String barCode;
 
     private String unitMeasure;
-    
+
     @ManyToOne
     private Brand brand;
 
