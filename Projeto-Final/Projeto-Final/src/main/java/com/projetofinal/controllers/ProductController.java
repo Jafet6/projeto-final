@@ -13,10 +13,10 @@ import java.util.List;
 @RequestMapping(name = "/product")
 public class ProductController {
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @PostMapping
     private Product create(@Valid @RequestBody Product product) throws Exception {
