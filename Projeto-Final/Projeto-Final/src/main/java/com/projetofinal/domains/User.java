@@ -7,9 +7,6 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -18,30 +15,32 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Table
 @ToString
-public class User {
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @NotEmpty
-    @Max(80)
-    @Column(length = 80, nullable = false)
+   // @NotBlank
+  //  @NotEmpty
+//    @Max(255)
+//    @Column(length = 255)
     private String name;
 
-    @NotBlank
-    @NotEmpty
+   // @NotBlank
+   // @NotEmpty
     @CPF
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String cpf;
 
-    @NotBlank
-    @NotEmpty
-    @Column(unique = true, nullable = false)
+    //@NotBlank
+   // @NotEmpty
+    @Column(unique = true)
     @Size(min = 5, max = 20)
     private String login;
 
     private String password;
+
+
 
     public User(String name, String cpf, String login, String password) {
         this.name = name;
