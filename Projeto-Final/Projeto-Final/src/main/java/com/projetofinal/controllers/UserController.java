@@ -36,9 +36,9 @@ public class UserController {
 
     @PostMapping
     private ResponseEntity<Object> create(@Valid @RequestBody UserRegisterRequest userRequest) throws Exception {
-        User userDomain = userMapper.convertUserRegisterRequestToEntity(userRequest );
+        User userDomain = userMapper.convertUserRegisterRequestToEntity(userRequest);
         System.out.println(userRequest);
-       UserDataResponse serviceResponse = userService.create(userDomain);
+        UserDataResponse serviceResponse = userService.create(userDomain);
         return ResponseEntity.status(HttpStatus.CREATED).body(serviceResponse);
     }
 

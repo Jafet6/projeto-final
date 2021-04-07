@@ -4,6 +4,7 @@ import com.projetofinal.domains.Product;
 import com.projetofinal.mappers.ProductMapper;
 import com.projetofinal.repository.ProductRepository;
 import com.projetofinal.requests.ProductRegisterRequest;
+import com.projetofinal.responses.MessageResponse;
 import com.projetofinal.responses.ProductDataResponse;
 import com.projetofinal.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,23 +35,28 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable("id") Long id) {
-        productRepository.deleteById(id);
+    public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
+        MessageResponse message = productService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(message);
     }
 
     @GetMapping("/{id}")
-    public Product findById(@PathVariable("id") Long id) {
-        return productRepository.findById(id).get();
+    public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
+        ProductDataResponse serviceResponse = productService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(serviceResponse);
+
     }
 
     @PutMapping("/{id}")
-    private Product updateById(@PathVariable("id") Long id, @Valid @RequestBody Product product) throws Exception {
-        product.setId(id);
+    public Product updateById(@PathVariable("id") Long id, @Valid @RequestBody ProductRegisterRequest productRequest) throws Exception {
+        Product product = productMapper.convertProductRegisterRequestToEntity(productRequest);
+        ProductDataResponse serviceResponse = productService.updateById(id, product);
         return productRepository.save(product);
     }
 
     @GetMapping
-    private List<Product> findAll() {
-        return productRepository.findAll();
+    private ResponseEntity<List<ProductDataResponse>> findAll() {
+        List<ProductDataResponse> serviceResponse = productService.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(serviceResponse);
     }
 }

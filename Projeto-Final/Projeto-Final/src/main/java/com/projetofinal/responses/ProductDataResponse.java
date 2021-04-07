@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDataResponse {
     private String name;
-    private Brand brand;
-    private Category category;
+    private BrandResponse brand;
+    private CategoryResponse category;
 }

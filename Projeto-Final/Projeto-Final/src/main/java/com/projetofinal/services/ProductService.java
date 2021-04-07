@@ -1,13 +1,21 @@
 package com.projetofinal.services;
 
+import com.projetofinal.domains.Brand;
+import com.projetofinal.domains.Category;
 import com.projetofinal.domains.Product;
 import com.projetofinal.mappers.ProductMapper;
+import com.projetofinal.repository.BrandRepository;
+import com.projetofinal.repository.CategoryRepository;
 import com.projetofinal.repository.ProductRepository;
+import com.projetofinal.responses.MessageResponse;
 import com.projetofinal.responses.ProductDataResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -15,39 +23,70 @@ public class ProductService {
     private final ProductMapper productMapper;
     private final CategoryService categoryService;
     private final BrandService brandService;
+    private final CategoryRepository categoryRepository;
+    private final BrandRepository brandRepository;
 
-    public ProductService(ProductRepository productRepository, ProductMapper productMapper, CategoryService categoryService, BrandService brandService) {
+    @Autowired
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper, CategoryService categoryService, BrandService brandService, CategoryRepository categoryRepository, BrandRepository brandRepository) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
         this.categoryService = categoryService;
         this.brandService = brandService;
+        this.categoryRepository = categoryRepository;
+        this.brandRepository = brandRepository;
+    }
+
+    public Category findAndCheckCategory(Product product) {
+        Optional<Category> categoryDB = categoryRepository.findByCategory(product.getCategory().getCategory());
+        if (!categoryDB.isPresent()) throw new EntityNotFoundException("Categoria nao encontrada");
+        return categoryDB.get();
+    }
+
+    public Brand findAndCheckBrand(Product product) {
+        Optional<Brand> brandDB = brandRepository.findByBrand(product.getBrand().getBrand());
+        if (!brandDB.isPresent()) throw new EntityNotFoundException("Marca nao encontrada");
+        return brandDB.get();
     }
 
     public ProductDataResponse create(Product product) throws Exception {
-//        Category categoria = categoryService.findByName();
-//        brandService.save
+        product.setCategory(findAndCheckCategory(product));
+
+        product.setBrand(findAndCheckBrand(product));
+
         productRepository.save(product);
+
         ProductDataResponse productResponse = productMapper.convertProductDomainToProductResponse(product);
         return productResponse;
     }
 
-    public void deleteById(Long id) {
+    public MessageResponse deleteById(Long id) {
         productRepository.deleteById(id);
+        MessageResponse response = new MessageResponse("Produto deletado com sucesso");
+        return response;
     }
 
-    public Product findById(Long id) {
+    public ProductDataResponse findById(Long id) {
         Product product = productRepository.findById(id).get();
-        return product;
+        ProductDataResponse response = productMapper.convertProductDomainToProductResponse(product);
+        return response;
     }
 
-    private Product updateById(Long id, Product product) throws Exception {
+    public ProductDataResponse updateById(Long id, Product product) throws Exception {
         product.setId(id);
+        product.setCategory(findAndCheckCategory(product));
+        product.setBrand(findAndCheckBrand(product));
         productRepository.save(product);
-        return product;
+        ProductDataResponse response = productMapper.convertProductDomainToProductResponse(product);
+        return response;
     }
 
-    private List<Product> findAll() {
+    public List<ProductDataResponse> findAll() {
+        List<Product> products = productRepository.findAll();
 
-        return productRepository.findAll();
+        List<ProductDataResponse> response = products.stream().map(
+                product -> productMapper.convertProductDomainToProductResponse(product))
+                .collect(Collectors.toList());
+
+        return response;
     }
 }
