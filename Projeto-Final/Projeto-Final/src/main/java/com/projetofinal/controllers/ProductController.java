@@ -29,7 +29,6 @@ public class ProductController {
     @PostMapping
     private ResponseEntity<Object> create(@Valid @RequestBody ProductRegisterRequest productRequest) throws Exception {
         Product productDomain = productMapper.convertProductRegisterRequestToEntity(productRequest);
-//        System.out.println(productDomain.getCategory());
         ProductDataResponse serviceResponse = productService.create(productDomain);
         return ResponseEntity.status(HttpStatus.CREATED).body(serviceResponse);
     }

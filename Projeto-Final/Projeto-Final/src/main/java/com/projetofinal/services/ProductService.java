@@ -10,7 +10,6 @@ import com.projetofinal.repository.ProductRepository;
 import com.projetofinal.responses.ProductDataResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -22,6 +21,7 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final BrandRepository brandRepository;
 
+    @Autowired
     public ProductService(ProductRepository productRepository, ProductMapper productMapper, CategoryService categoryService, BrandService brandService, CategoryRepository categoryRepository, BrandRepository brandRepository) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
