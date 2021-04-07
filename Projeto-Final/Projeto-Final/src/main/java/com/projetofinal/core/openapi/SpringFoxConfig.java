@@ -18,7 +18,7 @@ public class SpringFoxConfig {
     public Docket apis() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.gama"))
+                .apis(RequestHandlerSelectors.basePackage("com.projetoFinal"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
@@ -27,7 +27,7 @@ public class SpringFoxConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Documentacao cadastro carros")
+                .title("Documentacao cadastro usuarios")
                 .description("\"Um exemplo de aplicacao Spring Boot REST API\"")
                 .version("1.0.0")
                 .license("Todos os direitos reservados")

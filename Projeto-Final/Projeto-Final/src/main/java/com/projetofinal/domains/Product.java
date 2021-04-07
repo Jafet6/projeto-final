@@ -11,6 +11,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -26,7 +27,8 @@ public class Product {
 
     @NotBlank
     @NotEmpty
-    @Size(min = 3, max = 80)
+    @Size( max = 30)
+    @Column(length = 30, nullable = false)
     private String name;
 
     private String barCode;
@@ -41,19 +43,16 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private Float price;
+    private BigDecimal unitPrice;
 
-    private Float unitPrice;
+    private BigDecimal stock;
 
-    private Integer stock;
-
-    public Product(String name, String barCode, String unitMeasure, Brand brand, Category category, Float price, Float unitPrice, Integer stock) {
+    public Product(String name, String barCode, String unitMeasure, Brand brand, Category category, BigDecimal unitPrice, BigDecimal stock) {
         this.name = name;
         this.barCode = barCode;
         this.unitMeasure = unitMeasure;
         this.brand = brand;
         this.category = category;
-        this.price = price;
         this.unitPrice = unitPrice;
         this.stock = stock;
     }

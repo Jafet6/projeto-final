@@ -10,7 +10,6 @@ import com.projetofinal.requests.ProductRegisterRequest;
 import com.projetofinal.responses.MessageResponse;
 import com.projetofinal.responses.ProductDataResponse;
 import com.projetofinal.services.ProductService;
-import com.projetofinal.utils.rest.RestTemplateFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,39 +1,61 @@
 package com.projetofinal.services;
 
 import com.projetofinal.domains.User;
+import com.projetofinal.mappers.UserMapper;
 import com.projetofinal.repository.UserRepository;
+import com.projetofinal.responses.MessageResponse;
+import com.projetofinal.responses.UserDataResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User create(User user) throws Exception {
-        userRepository.save(user);
-        return user;
+    private final UserMapper userMapper;
+
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
 
-    public void deleteById(Long id) {
+    public UserDataResponse create(User user) throws Exception {
+       userRepository.save(user);
+        UserDataResponse userResponse = userMapper.convertUserDomainToUserResponse(user);
+         return userResponse;
+    }
+
+    public MessageResponse deleteById(Long id) {
         userRepository.deleteById(id);
+        MessageResponse response = new MessageResponse ("Usuário deletado com sucesso");
+        return response;
     }
 
-    public User findById(Long id) {
+    public UserDataResponse findById(Long id) {
         User user = userRepository.findById(id).get();
-        return user;
+        UserDataResponse response = userMapper.convertUserDomainToUserResponse(user);
+        return response;
     }
 
-    private User updateById(Long id, User user) throws Exception {
+    public UserDataResponse updateById(Long id, User user) throws Exception {
         user.setId(id);
+        user.setName(user.getName());
+        user.setLogin(user.getLogin());
+        user.setPassword(user.getPassword());
         userRepository.save(user);
-        return user;
+        UserDataResponse response = userMapper.convertUserDomainToUserResponse(user);
+        return response;
     }
 
-    private List<User> findAll() {
+    public List<UserDataResponse> findAll() {
+        List<User> users = userRepository.findAll();
 
-        return userRepository.findAll();
+        List<UserDataResponse> response = users.stream().map(
+                user -> userMapper.convertUserDomainToUserResponse(user))
+        .collect(Collectors.toList());
+        return response;
     }
 }

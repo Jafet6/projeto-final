@@ -1,4 +1,5 @@
-package com.projetofinal.requests;
+package com.projetofinal.responses;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRegisterRequest {
-
+public class UserDataResponse {
     private String name;
     private String cpf;
     private String login;
     private String password;
+
 }
