@@ -11,7 +11,10 @@ import com.projetofinal.responses.MessageResponse;
 import com.projetofinal.responses.ProductDataResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,11 +37,13 @@ public class ProductService {
     }
 
     public ProductDataResponse create(Product product) throws Exception {
-        Category category = categoryRepository.findByCategory(product.getCategory().getCategory()).get();
-        product.setCategory(category);
+        Optional<Category> categoryDB = categoryRepository.findByCategory(product.getCategory().getCategory());
+        if (!categoryDB.isPresent()) throw new EntityNotFoundException("Category nao encontrada");
+        product.setCategory(categoryDB.get());
 
-        Brand brand = brandRepository.findByBrand(product.getBrand().getBrand()).get();
-        product.setBrand(brand);
+        Optional<Brand> brandDB = brandRepository.findByBrand(product.getBrand().getBrand());
+        if (!brandDB.isPresent()) throw new EntityNotFoundException("Marca nao encontrada");
+        product.setBrand(brandDB.get());
 
         productRepository.save(product);
 
@@ -67,7 +72,6 @@ public class ProductService {
 
     public List<ProductDataResponse> findAll() {
         List<Product> products = productRepository.findAll();
-        System.out.println(products);
 
         List<ProductDataResponse> response = products.stream().map(
                 product -> productMapper.convertProductDomainToProductResponse(product))
