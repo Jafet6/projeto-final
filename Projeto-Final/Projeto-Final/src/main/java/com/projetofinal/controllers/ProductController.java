@@ -1,7 +1,10 @@
 package com.projetofinal.controllers;
 
+import com.projetofinal.domains.CEP;
+import com.projetofinal.domains.Category;
 import com.projetofinal.domains.Product;
 import com.projetofinal.mappers.ProductMapper;
+import com.projetofinal.repository.CategoryRepository;
 import com.projetofinal.repository.ProductRepository;
 import com.projetofinal.requests.ProductRegisterRequest;
 import com.projetofinal.responses.MessageResponse;
@@ -26,6 +29,9 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @PostMapping
     private ResponseEntity<Object> create(@Valid @RequestBody ProductRegisterRequest productRequest) throws Exception {
@@ -59,4 +65,17 @@ public class ProductController {
         List<ProductDataResponse> serviceResponse = productService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(serviceResponse);
     }
+
+    @GetMapping("/category/{id}")
+    private ResponseEntity<List<ProductDataResponse>> findAllByCategory(@PathVariable("id") Long id) {
+        List<ProductDataResponse> serviceResponse = productService.findAllByCategoryId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(serviceResponse);
+    }
+
+    @GetMapping("/brand/{id}")
+    private ResponseEntity<List<ProductDataResponse>> findAllByBrandId(@PathVariable("id") Long id) {
+        List<ProductDataResponse> serviceResponse = productService.findAllByBrandId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(serviceResponse);
+    }
+
 }
