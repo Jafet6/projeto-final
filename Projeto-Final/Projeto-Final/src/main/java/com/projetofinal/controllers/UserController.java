@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping
     private User create(@Valid @RequestBody User user) throws Exception {
-        checkRegister(user.getCpf(), user.getLogin());
+//        checkRegister(user.getCpf(), user.getLogin());
         return userRepository.save(user);
     }
 
