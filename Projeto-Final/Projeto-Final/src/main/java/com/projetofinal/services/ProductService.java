@@ -36,14 +36,22 @@ public class ProductService {
         this.brandRepository = brandRepository;
     }
 
-    public ProductDataResponse create(Product product) throws Exception {
+    public Category findAndCheckCategory(Product product) {
         Optional<Category> categoryDB = categoryRepository.findByCategory(product.getCategory().getCategory());
-        if (!categoryDB.isPresent()) throw new EntityNotFoundException("Category nao encontrada");
-        product.setCategory(categoryDB.get());
+        if (!categoryDB.isPresent()) throw new EntityNotFoundException("Categoria nao encontrada");
+        return categoryDB.get();
+    }
 
+    public Brand findAndCheckBrand(Product product) {
         Optional<Brand> brandDB = brandRepository.findByBrand(product.getBrand().getBrand());
         if (!brandDB.isPresent()) throw new EntityNotFoundException("Marca nao encontrada");
-        product.setBrand(brandDB.get());
+        return brandDB.get();
+    }
+
+    public ProductDataResponse create(Product product) throws Exception {
+        product.setCategory(findAndCheckCategory(product));
+
+        product.setBrand(findAndCheckBrand(product));
 
         productRepository.save(product);
 
@@ -65,6 +73,8 @@ public class ProductService {
 
     public ProductDataResponse updateById(Long id, Product product) throws Exception {
         product.setId(id);
+        product.setCategory(findAndCheckCategory(product));
+        product.setBrand(findAndCheckBrand(product));
         productRepository.save(product);
         ProductDataResponse response = productMapper.convertProductDomainToProductResponse(product);
         return response;
