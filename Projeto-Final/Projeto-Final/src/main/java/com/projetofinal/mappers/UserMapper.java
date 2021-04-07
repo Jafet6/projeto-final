@@ -27,10 +27,10 @@ public class UserMapper {
         return userModel;
     }
 
-//    public UserDataResponse convertUserModelToUserResponse(User user) {
-//        UserDataResponse userDataResponse = modelMapper.map(user, UserDataResponse.class);
-//        return userDataResponse;
-//    }
+    public UserDataResponse convertUserModelToUserResponse(User user) {
+        UserDataResponse userDataResponse = modelMapper.map(user, UserDataResponse.class);
+        return userDataResponse;
+    }
 //
 //    public User convertUserRegisterRequestToEntity(UserRegisterRequest userRequest) throws ParseException {
 //        User userModel = modelMapper.map(userRequest, User.class);

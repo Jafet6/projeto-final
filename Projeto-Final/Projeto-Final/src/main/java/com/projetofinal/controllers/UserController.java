@@ -4,6 +4,7 @@ import com.projetofinal.domains.User;
 import com.projetofinal.mappers.UserMapper;
 import com.projetofinal.repository.UserRepository;
 import com.projetofinal.requests.UserRegisterRequest;
+import com.projetofinal.responses.MessageResponse;
 import com.projetofinal.responses.UserDataResponse;
 import com.projetofinal.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,31 +38,36 @@ public class UserController {
     @PostMapping
     private ResponseEntity<Object> create(@Valid @RequestBody UserRegisterRequest userRequest) throws Exception {
         User userDomain = userMapper.convertUserRegisterRequestToEntity(userRequest);
-        System.out.println(userRequest);
+//        System.out.println(userRequest);
         UserDataResponse serviceResponse = userService.create(userDomain);
         return ResponseEntity.status(HttpStatus.CREATED).body(serviceResponse);
     }
 
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable("id") Long id) {
-        userRepository.deleteById(id);
+    public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
+        MessageResponse message = userService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(message);
+
     }
 
     @GetMapping("/{id}")
-    public User findById(@PathVariable("id") Long id) {
-        return userRepository.findById(id).get();
+    public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
+        UserDataResponse userResponse = userService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponse);
     }
 
     @PutMapping("/{id}")
-    private User updateById(@PathVariable("id") Long id, @Valid @RequestBody User user) throws Exception {
-        user.setId(id);
-        checkRegister(user.getCpf(), user.getLogin());
+    private User updateById(@PathVariable("id") Long id, @Valid @RequestBody UserRegisterRequest userRequest) throws Exception {
+        User user = userMapper.convertUserRegisterRequestToEntity(userRequest);
+        UserDataResponse userResponse = userService.updateById(id, user);
         return userRepository.save(user);
     }
 
     @GetMapping
-    private List<User> findAll() {
-        return userRepository.findAll();
+    private ResponseEntity<List<UserDataResponse>> findAll() {
+        List<UserDataResponse> serviceResponse = userService.findAll();
+
+        return ResponseEntity.status(HttpStatus.OK).body(serviceResponse);
     }
 }
