@@ -7,10 +7,12 @@ import com.projetofinal.mappers.ProductMapper;
 import com.projetofinal.repository.BrandRepository;
 import com.projetofinal.repository.CategoryRepository;
 import com.projetofinal.repository.ProductRepository;
+import com.projetofinal.responses.MessageResponse;
 import com.projetofinal.responses.ProductDataResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -44,23 +46,33 @@ public class ProductService {
         return productResponse;
     }
 
-    public void deleteById(Long id) {
+    public MessageResponse deleteById(Long id) {
         productRepository.deleteById(id);
+        MessageResponse response = new MessageResponse("Produto deletado com sucesso");
+        return response;
     }
 
-    public Product findById(Long id) {
+    public ProductDataResponse findById(Long id) {
         Product product = productRepository.findById(id).get();
-        return product;
+        ProductDataResponse response = productMapper.convertProductDomainToProductResponse(product);
+        return response;
     }
 
-    private Product updateById(Long id, Product product) throws Exception {
+    public ProductDataResponse updateById(Long id, Product product) throws Exception {
         product.setId(id);
         productRepository.save(product);
-        return product;
+        ProductDataResponse response = productMapper.convertProductDomainToProductResponse(product);
+        return response;
     }
 
-    private List<Product> findAll() {
+    public List<ProductDataResponse> findAll() {
+        List<Product> products = productRepository.findAll();
+        System.out.println(products);
 
-        return productRepository.findAll();
+        List<ProductDataResponse> response = products.stream().map(
+                product -> productMapper.convertProductDomainToProductResponse(product))
+                .collect(Collectors.toList());
+
+        return response;
     }
 }
